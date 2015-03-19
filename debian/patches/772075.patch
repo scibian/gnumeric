@@ -1,0 +1,105 @@
+Last-Update: 2014-12-06
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=772075
+Bug-Gnumeric: https://bugzilla.gnome.org/show_bug.cgi?id=741197
+Origin: upstream, https://git.gnome.org/browse/gnumeric/commit/?id=f40331313f3c885647ef6b2aa1644a9aaa6bf0a1
+From: Morten Welinder <terra@gnome.org>
+Description: Col/Row insert: fix undo crash with conditional formatting [U#741197].
+
+--- a/src/sheet-style.c
++++ b/src/sheet-style.c
+@@ -325,8 +325,19 @@
+ 		*old = s;
+ 	}
+ }
+ 
++void
++sheet_style_clear_style_dependents (Sheet *sheet, GnmRange const *r)
++{
++	GSList *styles = sh_all_styles (sheet->style_data->style_hash);
++	g_slist_foreach (styles,
++			 (GFunc)gnm_style_unlink_dependents,
++			 r);
++	g_slist_free (styles);
++}
++
++
+ /****************************************************************************/
+ 
+ /* If you change this, change the tile_{widths,heights} here
+  * and GNM_MAX_COLS and GNM_MAX_ROWS in gnumeric.h */
+--- a/src/sheet-style.h
++++ b/src/sheet-style.h
+@@ -104,7 +104,9 @@
+ void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);
+ 
+ void      sheet_style_optimize (Sheet *sheet);
+ 
++void      sheet_style_clear_style_dependents (Sheet *sheet, GnmRange const *r);
++
+ G_END_DECLS
+ 
+ #endif /* _GNM_SHEET_STYLE_H_ */
+--- a/src/sheet.c
++++ b/src/sheet.c
+@@ -5135,9 +5135,8 @@
+ 	/* 1. Delete all columns (and their cells) that will fall off the end */
+ 	for (i = sheet->cols.max_used; i >= gnm_sheet_get_max_cols (sheet) - count ; --i)
+ 		sheet_col_destroy (sheet, i, TRUE);
+ 
+-	/* 2. Fix references to and from the cells which are moving */
+ 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
+ 	reloc_info.sticky_end = TRUE;
+ 	reloc_info.origin.start.col = col;
+ 	reloc_info.origin.start.row = 0;
+@@ -5147,15 +5146,20 @@
+ 	reloc_info.col_offset = count;
+ 	reloc_info.row_offset = 0;
+ 	parse_pos_init_sheet (&reloc_info.pos, sheet);
+ 
++	/* 1.5 Get rid of style dependents, see #741197.  */
++	sheet_style_clear_style_dependents (sheet, &reloc_info.origin);
++
++	/* 2. Fix references to and from the cells which are moving */
+ 	combine_undo (pundo, dependents_relocate (&reloc_info));
+ 
+ 	/* 3. Move the columns to their new location (from right to left) */
+ 	for (i = sheet->cols.max_used; i >= col ; --i)
+ 		colrow_move (sheet, i, 0, i, gnm_sheet_get_last_row (sheet),
+ 			     &sheet->cols, i, i + count);
+ 
++	/* 4. Move formatting.  */
+ 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, pundo);
+ 
+ 	add_undo_op (pundo, TRUE, sheet_delete_cols,
+ 		     sheet, col, count,
+@@ -5307,9 +5311,8 @@
+ 	/* 1. Delete all rows (and their cells) that will fall off the end */
+ 	for (i = sheet->rows.max_used; i >= gnm_sheet_get_max_rows (sheet) - count ; --i)
+ 		sheet_row_destroy (sheet, i, TRUE);
+ 
+-	/* 2. Fix references to and from the cells which are moving */
+ 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
+ 	reloc_info.sticky_end = TRUE;
+ 	reloc_info.origin.start.col = 0;
+ 	reloc_info.origin.start.row = row;
+@@ -5319,15 +5322,20 @@
+ 	reloc_info.col_offset = 0;
+ 	reloc_info.row_offset = count;
+ 	parse_pos_init_sheet (&reloc_info.pos, sheet);
+ 
++	/* 1.5 Get rid of style dependents, see #741197.  */
++	sheet_style_clear_style_dependents (sheet, &reloc_info.origin);
++
++	/* 2. Fix references to and from the cells which are moving */
+ 	combine_undo (pundo, dependents_relocate (&reloc_info));
+ 
+ 	/* 3. Move the rows to their new location (from last to first) */
+ 	for (i = sheet->rows.max_used; i >= row ; --i)
+ 		colrow_move (sheet, 0, i, gnm_sheet_get_last_col (sheet), i,
+ 			     &sheet->rows, i, i + count);
+ 
++	/* 4. Move formatting.  */
+ 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, pundo);
+ 
+ 	add_undo_op (pundo, FALSE, sheet_delete_rows,
+ 		     sheet, row, count,

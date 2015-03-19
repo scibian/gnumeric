@@ -1,0 +1,11 @@
+# private library in application package:
+package-name-doesnt-match-sonames libspreadsheet-*
+non-dev-pkg-with-shlib-symlink
+no-symbols-control-file
+
+# hardening false-positives:
+hardening-no-fortify-functions usr/lib/gnumeric/*/plugins/applix/applix.so
+hardening-no-fortify-functions usr/lib/gnumeric/*/plugins/openoffice/openoffice.so
+hardening-no-fortify-functions usr/lib/gnumeric/*/plugins/sample_datasource/sample_datasource.so
+hardening-no-fortify-functions usr/lib/gnumeric/*/plugins/sylk/sylk.so
+hardening-no-fortify-functions usr/lib/gnumeric/*/plugins/xbase/xbase.so

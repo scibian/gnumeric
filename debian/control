@@ -1,0 +1,141 @@
+Source: gnumeric
+Section: math
+Priority: optional
+Maintainer: Dmitry Smirnov <onlyjob@debian.org>
+Build-Depends: debhelper (>= 9) ,dh-autoreconf ,dh-buildinfo ,po-debconf ,imagemagick ,dpkg-dev (>= 1.16.1.1)
+              ,bison
+# "dblatex" needed for PDF generation:
+#             ,dblatex
+              ,flex
+              ,gettext
+              ,intltool
+              ,libart-2.0-dev
+              ,libglib2.0-dev (>= 2.28.0)
+              ,libgirepository1.0-dev (>= 1.41.4)
+              ,libgoffice-0.10-dev (>= 0.10.14)
+              ,libgsf-1-dev (>= 1.14.24)
+              ,libgtk-3-dev
+              ,libpango1.0-dev
+              ,libperl-dev
+              ,libxml-parser-perl
+              ,libxml2-dev
+              ,python-dev
+              ,python-gi-dev
+              ,pxlib-dev
+              ,rarian-compat | scrollkeeper
+              ,zlib1g-dev
+X-Python-Version: >= 2.5
+Homepage: http://www.gnumeric.org/
+Vcs-Git: git://anonscm.debian.org/collab-maint/gnumeric.git
+Vcs-Browser: http://anonscm.debian.org/cgit/collab-maint/gnumeric.git
+Standards-Version: 3.9.6
+
+Package: gnumeric
+Architecture: any
+Pre-Depends: debconf
+Depends: gnumeric-common (= ${source:Version})
+        ,${misc:Depends} ,${shlibs:Depends}
+        ,gsfonts
+        ,procps
+Recommends: gnumeric-doc (>= ${Upstream-Version})
+           ,evince | evince-gtk
+           ,lp-solve
+Suggests: gnumeric-plugins-extra
+         ,fonts-liberation | ttf-mscorefonts-installer
+Breaks: gnumeric-doc (<< ${Upstream-Version})
+       ,gnumeric-common (<< 1.12.2)
+Replaces: gnumeric-common (<< 1.12.2)
+Description: spreadsheet application for GNOME - main program
+ Gnumeric is a spreadsheet application that interoperates well
+ with other spreadsheets. It comes with plugins that enable it to deal with
+ commonly used spreadsheet file formats.
+ .
+ The following formats can be imported and exported:
+  - Microsoft Excel 97/2000/XP (.xls);
+  - Microsoft Excel 95 (.xls);
+  - OASIS XML, OpenOffice.org XML, StarOffice (.sxc);
+  - Comma/Character Separated Values (.csv);
+  - Data Interchange Format (.dif);
+  - Applix version 4 (.as).
+ .
+ Additionally, the following formats can be imported:
+  - GNU Oleo (.oleo);
+  - Linear and integer program expression format (.mps);
+  - Lotus 1-2-3 (.wks, .wk1);
+  - MS MultiPlan SYLK (.sylk);
+  - WordPerfect family "Plan Perfect" (.pln);
+  - Quattro Pro (tm);
+  - XSpread or SC;
+  - XBase (.dbf).
+ .
+ Gnumeric can export to LaTeX 2e (.tex), TROFF (.me) and HTML as well.
+ .
+ Gnumeric should be easy to use, in particular for users familiar with
+ Excel.
+ .
+ Gnumeric is a GNOME application. GNOME (GNU Network Object Model Environment)
+ is a user-friendly set of applications and desktop tools to be used in
+ conjunction with a window manager for the X Window System.
+
+Package: gnumeric-common
+Architecture: all
+Depends: ${misc:Depends}
+Replaces: gnumeric (<= 1.2.6-1)
+Description: spreadsheet application for GNOME - common files
+ Gnumeric is a spreadsheet application that interoperates well
+ with other spreadsheets. It comes with plugins that enable it to deal with
+ commonly used spreadsheet file formats.
+ .
+ This package contains architecture-independent data files needed by
+ gnumeric.
+
+Package: gnumeric-doc
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}, yelp
+Suggests: gnumeric (>= ${Upstream-Version}), docbook-xsl
+Breaks: gnumeric (<< 1.2.9-1)
+Replaces: gnumeric (<< 1.2.9-1), docbook-xsl
+Description: spreadsheet application for GNOME - documentation
+ Gnumeric is a spreadsheet application that interoperates well
+ with other spreadsheets. It comes with plugins that enable it to deal with
+ commonly used spreadsheet file formats.
+ .
+ This package provides the user manual in GNOME Help
+ (DocBook XML) format.
+
+Package: gnumeric-plugins-extra
+Architecture: any
+Depends: gnumeric (= ${binary:Version})
+        ,${misc:Depends} ,${shlibs:Depends}
+        ,${python:Depends} ,${perl:Depends}
+        ,python-gtk2
+Breaks: gnumeric (<= 1.3.92-1)
+Replaces: gnumeric (<= 1.3.92-1)
+Description: spreadsheet application for GNOME - additional plugins
+ Gnumeric is a spreadsheet application that interoperates well
+ with other spreadsheets. It comes with plugins that enable it to deal with
+ commonly used spreadsheet file formats.
+ .
+ Some plugins shipped with gnumeric require additional packages to those
+ required by the main gnumeric program. These plugins are therefore
+ packaged separately.
+ .
+ This includes:
+  - Perl plugin;
+  - Python plugin;
+  - Python plugin loader;
+  - additional Python functions;
+  - GNOME glossary.
+
+Package: gir1.2-gnumeric
+Section: introspection
+Architecture: any
+Depends: ${gir:Depends}, ${misc:Depends}
+Description: GObject introspection data for the Gnumeric spreadsheet
+ This package contains introspection data for the Gnumeric spreadsheet.
+ With it one can use gnumeric API from scripting languages like Python or
+ others.
+ .
+ It can be used by packages using the GIRepository format to generate
+ dynamic bindings.

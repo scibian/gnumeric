@@ -1,0 +1,2 @@
+# plugins are not meant to be executed directly:
+script-not-executable usr/lib/gnumeric/*/plugins/perl-func/perl_func.pl

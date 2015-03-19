@@ -1,0 +1,124 @@
+#! /usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Try to preserve timestamps as much as possible
+export INSTALL=/usr/bin/install -p
+
+# Make the linker work a bit harder so dynamic loading can be done faster.
+#LDFLAGS += -Wl,-O1
+
+# minimise needless linking
+# Make the linker only include actual dependencies on libraries, rather than
+# for all libraries specified in the link line.
+#LDFLAGS += -Wl,--as-needed
+
+export DEB_LDFLAGS_MAINT_APPEND= -Wl,-O1 -Wl,--as-needed
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+UVER=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9+\.]*$$//g')
+$(info I: UVER=$(UVER))
+
+CFLAGS += -Wall -g
+
+%:
+	dh $@ --parallel --with autoreconf,python2
+
+override_dh_autoreconf:
+	convert -monitor icons/32x32/gnumeric.png  debian/gnome-gnumeric.xpm
+	debconf-updatepo -v
+	dh_autoreconf --as-needed
+
+# Features configuration
+# ----------------------
+# We're aiming for a package that's stable, with as much functionality as is
+# reasonably possible.
+features:= 
+
+# Spreadsheet indexer for beagle
+features+= --enable-ssindex
+
+# Plugins to access databases through the GDA framework.
+# The GnomeDB plugin for gnumeric requires a version of GnomeDB that is not
+# available as packages yet. [Tue, 01 Sep 2009 20:49:41 +0200]
+features+= --without-gda
+
+# Psion files support?
+features+= --without-psiconv
+
+# Paradox database files plugin
+features+= --with-paradox
+
+# Perl plugin
+features+= --with-perl
+
+# The Python plugin
+features+= PYTHON=/usr/bin/python --with-python
+
+# Don't build a PDF of the documentation.
+features+= --disable-pdfdocs
+## Enable it for my development tree:
+#features+= --enable-pdfdocs
+
+confflags := --prefix=/usr \
+             --mandir=\$${prefix}/share/man \
+             --sysconfdir=/etc \
+             --localstatedir=/var/lib \
+             --libdir=/usr/lib \
+             --libexecdir=/usr/bin \
+             --enable-compile-warnings=minimum \
+             --enable-introspection=yes \
+             --disable-silent-rules \
+             --disable-maintainer-mode \
+             $(features)
+override_dh_auto_configure:
+	dh_auto_configure -- "CC=$(CC) $(LDFLAGS)" "CFLAGS=$(CFLAGS)" \
+            $(confflags)
+
+override_dh_auto_test:
+	## do not stop on failed tests
+	-dh_auto_test
+
+override_dh_auto_install:
+	GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
+        dh_auto_install --destdir=$(CURDIR)/debian/tmp -- \
+            localstatedir=$(CURDIR)/debian/tmp/var/lib \
+            libexecdir=$(CURDIR)/debian/tmp/usr/bin \
+            scrollkeeper_localstate_dir=/var/lib/scrollkeeper
+	# Removing *.la files
+	find $(CURDIR)/debian/tmp -name '*.la' -delete -printf 'removing %p\n'
+	# Removing *.ico files
+	find $(CURDIR)/debian/tmp -name '*.ico' -delete -printf 'removing %p\n'
+	# Plugins are not intended as stand-alone executables
+	find $(CURDIR)/debian/tmp/usr/lib/*/*/plugins -type f -executable \
+            -printf 'removing executable flag from %p\n' -exec chmod a-x '{}' \;
+
+override_dh_install:
+	dh_buildinfo
+	dh_install
+	# Rename the binary just "gnumeric"
+	cd debian/gnumeric/usr/bin \
+        && mv -v gnumeric-* gnumeric
+	#
+	# Remove files from the main package that belong to a more
+	# specialist package (dh_install doesn't do the right thing here
+	# IMO; perhaps it doesn't like multiple globs in one line)
+	while read l ; do \
+            $(RM) -rv debian/gnumeric/$$l ; \
+        done < debian/gnumeric-plugins-extra.install
+	#
+	# Wipe empty dirs if any
+	find $(CURDIR)/debian -type d -empty -delete -printf 'removing %p\n'
+
+override_dh_link:
+	# Make the documentation accessible to gnumeric
+	dh_link -pgnumeric-doc \
+            usr/share/xml/docbook/stylesheet/nwalsh/images  usr/share/gnumeric/$(UVER)/doc/C/images \
+            usr/share/gnome/help/gnumeric  usr/share/gnumeric/$(UVER)/doc
+
+override_dh_gencontrol:
+	dh_gencontrol -v -- -VUpstream-Version=$(UVER)
+
+override_dh_builddeb:
+	dh_builddeb -- -Zxz

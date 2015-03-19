@@ -1,0 +1,19 @@
+Last-Update: 2013-06-01
+Forwarded: not-needed
+Author: Dmitry Smirnov <onlyjob@member.fsf.org>
+Description: fixes FTBFS with automake (>= 1.13.2)
+ Error: "using '$(srcdir)' in TESTS is currently broken"
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -17,9 +17,9 @@
+ AC_INIT([gnumeric], [gnumeric_version_full],
+ 	[http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric])
+ 
+ AC_CONFIG_SRCDIR(src/sheet.h)
+-AM_INIT_AUTOMAKE([dist-bzip2])
++AM_INIT_AUTOMAKE([dist-bzip2 serial-tests])
+ 
+ dnl Version info for libraries = CURRENT:REVISION:AGE
+ dnl
+ dnl Within each x.y.*, ABI is maintained backward and _forward_ compatible.

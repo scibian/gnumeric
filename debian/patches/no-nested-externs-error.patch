@@ -1,0 +1,20 @@
+Last-Update: 2013-05-27
+Forwarded: not-needed
+Author: J.H.M. Dassen (Ray) <jdassen@debian.org>
+Description: Don't build -Werror=nested-externs
+ as this breaks a test used for GLIB_WITH_NLS
+ which in turn makes the locales directory come out wrong.
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -276,9 +276,9 @@
+ 	warning_options="-Wsign-compare -Wpointer-arith \
+ 			 -Wchar-subscripts -Wwrite-strings \
+ 			 -Wdeclaration-after-statement -Wnested-externs \
+ 			 -Wmissing-noreturn \
+-			 -Werror=missing-prototypes -Werror=nested-externs \
++			 -Werror=missing-prototypes \
+ 			 -Werror=implicit-function-declaration \
+ 			 -Wmissing-declarations -Wno-pointer-sign \
+ 			 -Werror=format-security -Wbitwise -Wcast-to-as \
+ 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \

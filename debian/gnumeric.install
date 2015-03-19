@@ -1,0 +1,21 @@
+/usr/bin/gnumeric*
+/usr/bin/ssconvert*
+/usr/bin/ssdiff*
+/usr/bin/ssgrep*
+/usr/bin/ssindex*
+/usr/lib/goffice/*/plugins/*/*.so
+/usr/lib/goffice/*/plugins/*/*.xml
+/usr/lib/gnumeric/*/plugins/*/*.so
+/usr/lib/gnumeric/*/plugins/*/*.xml
+/usr/lib/libspreadsheet-*.so*
+/usr/share/gnumeric/*/GNOME_Gnumeric-gtk.xml
+/usr/share/gnumeric/*/Gnumeric-embed.xml
+/usr/share/man/man*/*
+/usr/share/applications/gnumeric.desktop
+
+## Ideally the following should be in "libspreadsheet-dev" package
+## however libspreadsheet is not A[BP]I stable so it can't be packaged
+## in policy-compliant manner yet, see #723903#15.
+/usr/include/libspreadsheet-*
+/usr/lib/libspreadsheet.so
+/usr/lib/pkgconfig
