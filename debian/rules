@@ -117,6 +117,12 @@ override_dh_link:
             usr/share/xml/docbook/stylesheet/nwalsh/images  usr/share/gnumeric/$(UVER)/doc/C/images \
             usr/share/gnome/help/gnumeric  usr/share/gnumeric/$(UVER)/doc
 
+debian/gnumeric.preinst: debian/gnumeric.preinst.in
+	sed -r 's/@UVER@/$(UVER)/g' $< > $@
+
+override_dh_installdeb: debian/gnumeric.preinst
+	dh_installdeb
+
 override_dh_gencontrol:
 	dh_gencontrol -v -- -VUpstream-Version=$(UVER)
 

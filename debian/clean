@@ -1,4 +1,5 @@
 debian/gnome-gnumeric.xpm
+debian/gnumeric.preinst
 src/parser.c
 config.log
 po*/POTFILES

@@ -1,0 +1,82 @@
+#! /bin/sh
+set -e
+
+confirm_upgrade=true
+case "$1" in
+	install|upgrade)
+		if [ -z "$2" ]; then
+			# if not upgrading then it is all good
+			confirm_upgrade=false
+		else
+			old_upstream=${2%-*}
+			if [ "$old_upstream" = "@UVER@" ]; then
+				confirm_upgrade=false
+			fi
+		fi
+	;;
+	*)
+		:
+	;;
+esac
+
+confirm_upgrade_if_running() {
+	local pid gnumeric_running=false
+
+	if ! test -e /usr/share/debconf/confmodule ; then
+		# Nothing we can do
+		return 0
+	fi
+
+	# Check: if there's a gnumeric process running
+	for pid in $(pidof gnumeric); do
+		local running_exe target_exe
+
+		# Check: if it is not some other random process (e.g.
+		# debug gnumeric builtby the user)
+		# N.b. when run from a chroot, this can't tell an
+		# instance running in the chroot and outside apart
+		if ! [ -L "/proc/$pid/exe" ]; then
+		    continue
+		fi
+
+		# This won't play very well with dpkg diversions
+		running_exe="$(readlink -f "/proc/$pid/exe" 2>&1)"
+		target_exe="$(readlink -f /usr/bin/gnumeric 2>&1)"
+		if [ "$running_exe" = "$target_exe" ]; then
+			gnumeric_running=true
+		fi
+	done
+
+	if ! $gnumeric_running; then
+		return 0
+	fi
+
+	. /usr/share/debconf/confmodule
+
+	db_version 2.0
+	db_settitle gnumeric/existing-process-title
+
+	# Ignore the fact that this question may have been answered on another
+	# occasion already
+	db_fset gnumeric/existing-process seen false
+
+	# Try hard to get it answered
+	db_input high gnumeric/existing-process || true
+	db_go
+	db_get gnumeric/existing-process
+	if [ "$RET" = "false" ] ; then
+		# Abort installation of the package
+		db_stop
+		exit 1
+	fi
+
+	db_stop
+}
+
+if $confirm_upgrade; then
+	confirm_upgrade_if_running
+fi
+
+#DEBHELPER#
+
+exit 0
