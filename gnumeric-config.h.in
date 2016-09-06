@@ -1,0 +1,279 @@
+/* gnumeric-config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* always defined to indicate that i18n is enabled */
+#undef ENABLE_NLS
+
+/* The package name, for gettext */
+#undef GETTEXT_PACKAGE
+
+/* The API version number of this release */
+#undef GNM_API_VERSION
+
+/* Define if Gnumeric reduces the argument range of sin/cos/tan */
+#undef GNM_REDUCES_TRIG_RANGE
+
+/* Define if Gnumeric supplies the erfcl function */
+#undef GNM_SUPPLIES_ERFCL
+
+/* Define if Gnumeric supplies the erfl function */
+#undef GNM_SUPPLIES_ERFL
+
+/* Define if Gnumeric supplies the lgamma function */
+#undef GNM_SUPPLIES_LGAMMA
+
+/* Define if Gnumeric supplies the lgamma_r function */
+#undef GNM_SUPPLIES_LGAMMA_R
+
+/* The Epoch of this release */
+#undef GNM_VERSION_EPOCH
+
+/* Extra, possibly empty tag for this release */
+#undef GNM_VERSION_EXTRA
+
+/* The version number of this release, with optional extra suffix */
+#undef GNM_VERSION_FULL
+
+/* The Major version number of this release */
+#undef GNM_VERSION_MAJOR
+
+/* The Minor version number of this release */
+#undef GNM_VERSION_MINOR
+
+/* Define if UI is built */
+#undef GNM_WITH_GTK
+
+/* Define if the long double type is to be used */
+#undef GNM_WITH_LONG_DOUBLE
+
+/* Define to 1 if you have the `acoshl' function. */
+#undef HAVE_ACOSHL
+
+/* Define to 1 if you have the `acosl' function. */
+#undef HAVE_ACOSL
+
+/* Define to 1 if you have the `asinhl' function. */
+#undef HAVE_ASINHL
+
+/* Define to 1 if you have the `asinl' function. */
+#undef HAVE_ASINL
+
+/* Define to 1 if you have the `atan2l' function. */
+#undef HAVE_ATAN2L
+
+/* Define to 1 if you have the `atanhl' function. */
+#undef HAVE_ATANHL
+
+/* Define to 1 if you have the `atanl' function. */
+#undef HAVE_ATANL
+
+/* Define to 1 if you have the `bind_textdomain_codeset' function. */
+#undef HAVE_BIND_TEXTDOMAIN_CODESET
+
+/* Define to 1 if you have the `ceill' function. */
+#undef HAVE_CEILL
+
+/* Define to 1 if you have the `coshl' function. */
+#undef HAVE_COSHL
+
+/* Define to 1 if you have the `cosl' function. */
+#undef HAVE_COSL
+
+/* Define to 1 if you have the `dcgettext' function. */
+#undef HAVE_DCGETTEXT
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the `erfcl' function. */
+#undef HAVE_ERFCL
+
+/* Define to 1 if you have the `erfl' function. */
+#undef HAVE_ERFL
+
+/* Define to 1 if you have the `expl' function. */
+#undef HAVE_EXPL
+
+/* Define to 1 if you have the `expm1l' function. */
+#undef HAVE_EXPM1L
+
+/* Define to 1 if you have the `fabsl' function. */
+#undef HAVE_FABSL
+
+/* Define to 1 if you have the `finitel' function. */
+#undef HAVE_FINITEL
+
+/* Define to 1 if you have the `floorl' function. */
+#undef HAVE_FLOORL
+
+/* Define to 1 if you have the `fmodl' function. */
+#undef HAVE_FMODL
+
+/* Define if the GNU gettext() function is already present or preinstalled. */
+#undef HAVE_GETTEXT
+
+/* Define to 1 if you have the `go_render_generall' function. */
+#undef HAVE_GO_RENDER_GENERALL
+
+/* Define to 1 if you have the `gtk_cell_renderer_text_get_background_set'
+   function. */
+#undef HAVE_GTK_CELL_RENDERER_TEXT_GET_BACKGROUND_SET
+
+/* Define to 1 if you have the `gtk_cell_renderer_text_get_editable' function.
+   */
+#undef HAVE_GTK_CELL_RENDERER_TEXT_GET_EDITABLE
+
+/* Define to 1 if you have the `gtk_cell_renderer_text_get_foreground_set'
+   function. */
+#undef HAVE_GTK_CELL_RENDERER_TEXT_GET_FOREGROUND_SET
+
+/* Define to 1 if you have the `gtk_entry_set_editing_cancelled' function. */
+#undef HAVE_GTK_ENTRY_SET_EDITING_CANCELLED
+
+/* Define if the g_settings_new function is available */
+#undef HAVE_G_SETTINGS_NEW
+
+/* Define to 1 if you have the `hypotl' function. */
+#undef HAVE_HYPOTL
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `isnanl' function. */
+#undef HAVE_ISNANL
+
+/* Define to 1 if you have the <langinfo.h> header file. */
+#undef HAVE_LANGINFO_H
+
+/* Define if your <locale.h> file defines LC_MESSAGES. */
+#undef HAVE_LC_MESSAGES
+
+/* Define to 1 if you have the `lgamma' function. */
+#undef HAVE_LGAMMA
+
+/* Define to 1 if you have the `lgammal' function. */
+#undef HAVE_LGAMMAL
+
+/* Define to 1 if you have the `lgammal_r' function. */
+#undef HAVE_LGAMMAL_R
+
+/* Define if the lgamma_r function is available */
+#undef HAVE_LGAMMA_R
+
+/* Define if libgnomedb support is compiled in */
+#undef HAVE_LIBGNOMEDB
+
+/* Define to 1 if you have the `intl' library (-lintl). */
+#undef HAVE_LIBINTL
+
+/* Define to 1 if you have the <locale.h> header file. */
+#undef HAVE_LOCALE_H
+
+/* Define to 1 if you have the `log10l' function. */
+#undef HAVE_LOG10L
+
+/* Define to 1 if you have the `log1pl' function. */
+#undef HAVE_LOG1PL
+
+/* Define to 1 if you have the `log2l' function. */
+#undef HAVE_LOG2L
+
+/* Define to 1 if you have the `logl' function. */
+#undef HAVE_LOGL
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `mkfifo' function. */
+#undef HAVE_MKFIFO
+
+/* Define if PANGO_WEIGHT_THIN etc are available */
+#undef HAVE_PANGO_WEIGHT_THIN_ETC
+
+/* Define to 1 if you have the `powl' function. */
+#undef HAVE_POWL
+
+/* Define to 1 if you have the `sinhl' function. */
+#undef HAVE_SINHL
+
+/* Define to 1 if you have the `sinl' function. */
+#undef HAVE_SINL
+
+/* Define to 1 if you have the `sqrtl' function. */
+#undef HAVE_SQRTL
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sunmath.h> header file. */
+#undef HAVE_SUNMATH_H
+
+/* Define to 1 if you have the <sys/resource.h> header file. */
+#undef HAVE_SYS_RESOURCE_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have <sys/wait.h> that is POSIX.1 compatible. */
+#undef HAVE_SYS_WAIT_H
+
+/* Define to 1 if you have the `tanhl' function. */
+#undef HAVE_TANHL
+
+/* Define to 1 if you have the `tanl' function. */
+#undef HAVE_TANL
+
+/* Define to 1 if you have the `uname' function. */
+#undef HAVE_UNAME
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Version number of package */
+#undef VERSION
+
+/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
+   `char[]'. */
+#undef YYTEXT_POINTER
+
+/* Don't include gnumeric-features.h, it's a subset of gnumeric-config.h. */
+#define GNUMERIC_FEATURES_H
