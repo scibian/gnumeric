@@ -1,3 +1,10 @@
+gnumeric (1.12.18-2scibian1) jessie; urgency=low
+
+  * Add some sanity checks to the preinst to prevent it from bailing out
+    too easily
+
+ -- Scibian Packaging Team <packaging@scibian.org>  Tue, 06 Sep 2016 15:59:09 +0200
+
 gnumeric (1.12.18-2) unstable; urgency=low
 
   * New "772075.patch" to fix undo crash (Closes: #772075).
